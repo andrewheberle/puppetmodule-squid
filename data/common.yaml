@@ -1,0 +1,201 @@
+---
+ # Global Package Options
+squid::config_file: /etc/squid/squid.conf
+squid::config_file_mode: 0644
+squid::config_file_owner: root
+squid::config_file_group: root
+squid::config_file_template: squid/squid.conf.epp
+squid::package_ensure: present
+squid::package_name: squid
+squid::service_enable: true
+squid::service_ensure: running
+squid::service_manage: true
+squid::service_name: squid
+ # Authentication Options
+squid::authenticate_cache_garbage_interval: 1 hour
+squid::authenticate_ttl: 1 hour
+squid::authenticate_ip_ttl: 0 seconds
+ # Access Control Options
+squid::acl_localnet:
+  - src 10.0.0.0/8
+  - src 172.16.0.0/12
+  - src 192.168.0.0/16
+  - src fc00::/7
+  - src fe80::/10
+squid::acl_safe_ports:
+  - port 80
+  - port 21
+  - port 443
+  - port 70
+  - port 210
+  - port 1025-65535
+  - port 280
+  - port 488
+  - port 591
+  - port 777
+squid::acl_connect:
+  - method CONNECT
+squid::acl_ssl_ports:
+  - port 443
+squid::acl_uses_indirect_client: on
+squid::delay_pool_uses_indirect_client: on
+squid::log_uses_indirect_client: on
+squid::tproxy_uses_indirect_client: off
+squid::http_access::pre:
+  - deny !Safe_ports
+  - deny CONNECT !SSL_ports
+  - allow localhost manager
+  - deny manager
+  - deny to_localhost
+squid::http_access:
+  - USER DEFINED'
+squid::http_access::post:
+  - allow localnet
+  - allow localhost
+  - deny all
+ # Network Options
+squid::http_port:
+  - 3128
+squid::host_verify_strict: off
+squid::client_dst_passthru: on
+ # SSL Options
+squid::ssl_unclean_shutdown: off
+squid::sslproxy_version: 1
+ # External ssl_crtd Options
+squid::sslcrtd_program: /usr/lib64/squid/ssl_crtd -s /var/lib/ssl_db -M 4MB
+squid::sslcrtd_children: 32 startup=5 idle=1
+ # Neighbour Selection Options
+squid::dead_peer_timeout: 10 seconds
+squid::forward_max_tries: 10
+ # Memory Cache Options
+squid::cache_mem: 256 MB
+squid::maximum_object_size_in_memory: 512 KB
+squid::memory_replacement_policy: lru
+ # Disk Cache Options
+squid::cache_replacement_policy: lru
+squid::store_dir_select_algorithm: least-load
+squid::max_open_disk_fds: 0
+squid::minimum_object_size: 0 KB
+squid::maximum_object_size: 4 MB
+squid::cache_swap_low: 90
+squid::cache_swap_high: 95
+ # Logfile Options
+squid::access_log:
+  - daemon:/var/log/squid/access.log squid
+squid::logfile_daemon: /usr/lib64/squid/log_file_daemon
+squid::logfile_rotate: 0
+squid::mime_table: /etc/squid/mime.conf
+squid::log_mime_hdrs: off
+squid::pid_filename: /var/run/squid.pid
+squid::strip_query_terms: on
+squid::buffered_logs: off
+squid::netdb_filename: stdio:/var/log/squid/netdb.state
+ # Troubleshooting Options
+squid::cache_log: /var/log/squid/cache.log
+squid::coredump_dir: /var/spool/squid
+ # FTP Gateway Options
+squid::ftp_user: Squid@
+squid::ftp_passive: on
+squid::ftp_epsv_all: off
+squid::ftp_epsv: on
+squid::ftp_eprt: on
+squid::ftp_sanitycheck: on
+squid::ftp_telnet_protocol: on
+ # External Support Program Options
+squid::diskd_program: /usr/lib64/squid/diskd
+squid::unlinkd_program: /usr/lib64/squid/unlinkd
+squid::pinger_program: /usr/lib64/squid/pinger
+squid::pinger_enable: on
+ # URL Rewriting Options
+squid::url_rewrite_children: 20 startup=0 idle=1 concurrency=0
+squid::url_rewrite_host_header: on
+ # Cache Tuning Options
+squid::max_stale: 1 week
+squid::refresh_pattern:
+  - ^ftp: 1440 20% 10080
+  - ^gopher: 1440 0% 1440
+  - -i (/cgi-bin/|\?) 0 0% 0
+  - . 0 20% 4320
+squid::quick_abort_min: 16 KB
+squid::quick_abort_max: 16 KB
+squid::quick_abort_pct: 95
+squid::read_ahead_gap: 16 KB
+squid::negative_ttl: 0 seconds
+squid::positive_dns_ttl: 6 hours
+squid::negative_dns_ttl: 1 minutes
+squid::minimum_expiry_time: 60 seconds
+squid::store_avg_object_size: 13 KB
+squid::store_objects_per_bucket: 20
+ # HTTP Options
+squid::request_header_max_size: 64 KB
+squid::reply_header_max_size: 64 KB
+squid::client_request_buffer_max_size: 512 KB
+squid::chunked_request_body_max_size: 64 KB
+squid::adaptation_uses_indirect_client: on
+squid::via: on
+squid::ie_refresh: off
+squid::vary_ignore_expire: off
+squid::request_entities: off
+squid::relaxed_header_parser: on
+ # Timeout Options
+squid::forward_timeout: 4 minutes
+squid::connect_timeout: 1 minute
+squid::peer_connect_timeout: 30 seconds
+squid::read_timeout: 15 minutes
+squid::write_timeout: 15 minutes
+squid::request_timeout: 5 minutes
+squid::client_idle_pconn_timeout: 2 minutes
+squid::client_lifetime: 1 day
+squid::half_closed_clients: off
+squid::server_idle_pconn_timeout: 1 minute
+squid::ident_timeout: 10 seconds
+squid::shutdown_lifetime: 30 seconds
+ # Administrative Options
+squid::cache_mgr: root
+squid::mail_program: mail
+squid::cache_effective_user: squid
+squid::umask: 027
+ # Cache Registration Service Options
+squid::announce_host: tracker.ircache.net
+squid::announce_port: 3131
+ # HTTPD Accelerator Options
+squid::http_accel_surrogate_remote: off
+squid::esi_parser: custom
+ # Delay Pool Options
+squid::delay_pools: 0
+squid::delay_initial_bucket_level: 50
+ # Client Delay Pool Options
+squid::client_delay_pools: 0
+squid::client_delay_initial_bucket_level: 50
+ # WCCP Options
+squid::wccp_version: 4
+squid::wccp2_rebuild_wait: on
+squid::wccp2_forwarding_method: gre
+squid::wccp2_return_method: gre
+squid::wccp2_assignment_method: hash
+squid::wccp2_weight: 1000
+ # Persistent Connection Handling
+squid::client_persistent_connections: on
+squid::server_persistent_connections: on
+squid::persistent_connection_after_error: on
+squid::detect_broken_pconn: off
+ # Cache Digest Options
+squid::digest_generation: on
+squid::digest_bits_per_entry: 5
+squid::digest_rebuild_period: 1 hour
+squid::digest_rewrite_period: 1 hour
+squid::digest_swapout_chunk_size: 4096 bytes
+squid::digest_rebuild_chunk_percentage: 10
+ # ICP Options
+squid::log_icp_queries: on
+squid::icp_hit_stale: off
+squid::minimum_direct_hops: 4
+squid::minimum_direct_rtt: 400
+squid::netdb_low: 900
+squid::netdb_high: 1000
+squid::netdb_ping_period: 5 minutes
+squid::query_icmp: off
+squid::test_reachability: off
+squid::maximum_icp_query_timeout: 2000
+squid::minimum_icp_query_timeout: 5
+squid::background_ping_rate: 10 seconds

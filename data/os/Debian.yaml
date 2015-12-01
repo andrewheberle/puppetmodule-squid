@@ -1,0 +1,6 @@
+---
+ # Global Package Options
+squid::config_file: /etc/squid3/squid.conf
+squid::package_name: squid3
+ # Config Options
+squid::cache_effective_user: proxy

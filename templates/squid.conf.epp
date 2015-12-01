@@ -1,10 +1,10 @@
-<% if ! $squid::auth_param == undef { -%>
+<% if $squid::auth_param == NotUndef { -%>
 <% $squid::auth_param.flatten.each |$auth_param| { -%>
 auth_param <%= $auth_param %>
 <% } -%>
 <% } -%>
 
-<% if ! $squid::http_port == undef { -%>
+<% if $squid::http_port == NotUndef { -%>
 <% $squid::http_port.flatten.each |$http_port| { -%>
 http_port <%= $http_port %>
 <% } -%>

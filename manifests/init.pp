@@ -10,7 +10,6 @@ class squid (
   $config_file_template,
   $package_ensure,
   $package_name,
-  $auth_param,
   $http_port,
 ) {
 

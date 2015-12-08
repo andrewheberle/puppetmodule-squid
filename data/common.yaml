@@ -41,7 +41,7 @@ squid::acl_uses_indirect_client: on
 squid::delay_pool_uses_indirect_client: on
 squid::log_uses_indirect_client: on
 squid::tproxy_uses_indirect_client: off
-squid::http_access::pre:
+squid::http_access_pre:
   - deny !Safe_ports
   - deny CONNECT !SSL_ports
   - allow localhost manager
@@ -49,7 +49,7 @@ squid::http_access::pre:
   - deny to_localhost
 squid::http_access:
   - USER DEFINED'
-squid::http_access::post:
+squid::http_access_post:
   - allow localnet
   - allow localhost
   - deny all

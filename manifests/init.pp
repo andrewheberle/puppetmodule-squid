@@ -10,6 +10,11 @@ class squid (
   $config_file_template,
   $package_ensure,
   $package_name,
+  $package_manage,
+  $acl_safe_ports,
+  $acl_ssl_ports,
+  $acl_localnet,
+  $acl_connect,
   $http_port,
 ) {
 

@@ -1,4 +1,5 @@
 class squid::config inherits squid {
+
   file { $squid::config_file:
     ensure  => file,
     owner   => $squid::config_file_owner,

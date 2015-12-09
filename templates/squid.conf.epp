@@ -1,15 +1,18 @@
 # squid.conf: Managed by Puppet.
 #
+<%# Set auth_param -%>
 <% unless $squid::auth_param =~ Undef { -%>
 <% $squid::auth_param.flatten.each |$auth_param| { -%>
 auth_param <%= $auth_param %>
 <% } -%>
 <% } -%>
 
+<%# Set authenticate_cache_garbage_interval -%>
 <% unless $squid::authenticate_cache_garbage_interval =~ Undef { -%>
 authenticate_cache_garbage_interval <%= $squid::authenticate_cache_garbage_interval %>
 <% } -%>
 
+<%# Set authenticate_ttl -%>
 <% unless $squid::authenticate_ttl =~ Undef { -%>
 authenticate_cache_garbage_interval <%= $squid::authenticate_ttl %>
 <% } -%>

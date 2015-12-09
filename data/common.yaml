@@ -7,6 +7,7 @@ squid::config_file_group: root
 squid::config_file_template: squid/squid.conf.epp
 squid::package_ensure: present
 squid::package_name: squid
+squid::package_manage: true
 squid::service_enable: true
 squid::service_ensure: running
 squid::service_manage: true
